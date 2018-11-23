@@ -1,95 +1,94 @@
-import React from 'react'
-import { Alert,Button, View, StyleSheet,Text } from 'react-native'
-import CameraScreen from './screens/camera'
-import QuizScreen from './screens/quiz'
+import React from "react";
+import { Alert, Button, View, StyleSheet, Text } from "react-native";
+import CameraScreen from "./screens/camera";
+import QuizScreen from "./screens/quiz";
 // import { createStackNavigator, createAppContainer } from "react-navigation";
-
-
-
 
 // const RootStack = createStackNavigator({
 //   CameraScreen,
 
 // })
 
-
 export default class App extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-      home : false,
+      home: false,
       startMcqs: false,
       started: false
-    }
+    };
   }
 
   startMcqs = () => {
-    this.setState({startMcqs: true});
+    this.setState({ startMcqs: true });
     console.log("start mcqs");
-  }
+  };
 
-  result = (obt,total) => {
-    console.log(obt,total);
+  result = (obt, total) => {
+    console.log(obt, total);
     console.log("--------------------------------=-=====---=-==-=");
-    this.setState({resulted: true,home:false,startMcqs:false,started:false,obt,total})
-  }
+    this.setState({
+      resulted: true,
+      home: false,
+      startMcqs: false,
+      started: false,
+      obt,
+      total
+    });
+  };
   render() {
-    const {home,startMcqs,started,resulted,obt,total} = this.state;
+    const { home, startMcqs, started, resulted, obt, total } = this.state;
 
-    if(!home && !resulted){
+    if (!home && !resulted) {
       return (
-         
         <View style={styles.container}>
-        <Button
-    onPress={() => {this.setState({home:true})}}
-    title="Login by face detector"
-    color="#841584"
-    accessibilityLabel="Learn more about this purple button"
-  />
-      </View>
-      
-        );
-    }
-    else if(home && !startMcqs){
-      return ( <CameraScreen startMcqs={this.startMcqs} />
-      
-        ); 
-    }
-    else if(home && startMcqs && !started){
-      return ( 
+          <Button
+            onPress={() => {
+              this.setState({ home: true });
+            }}
+            title="Login by face detector"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
+      );
+    } else if (home && !startMcqs) {
+      return <CameraScreen startMcqs={this.startMcqs} />;
+    } else if (home && startMcqs && !started) {
+      return (
         <View style={styles.container}>
-        <Button
-    onPress={() => {this.setState({started:true})}}
-    title="Start Quiz"
-    color="#841584"
-    accessibilityLabel="Learn more about this purple button"
-  />
-      </View>
-      
-        ); 
-    }
-    else if(home && startMcqs && started){
-      return ( 
-        
-  <QuizScreen result={(obt,total) => {this.result(obt,total)}}/>
-      
-        ); 
-        
-    }
-    else if(resulted && !home){
-      return ( 
+          <Button
+            onPress={() => {
+              this.setState({ started: true });
+            }}
+            title="Start Quiz"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
+      );
+    } else if (home && startMcqs && started) {
+      return (
+        <QuizScreen
+          result={(obt, total) => {
+            this.result(obt, total);
+          }}
+        />
+      );
+    } else if (resulted && !home) {
+      return (
         <View style={styles.container}>
           <Text>
             You Got {obt} / {total}
           </Text>
-          <Button 
-          title="Start Again"
-          onPress={() => {this.setState({home:false,resulted:false})}}
+          <Button
+            title="Start Again"
+            onPress={() => {
+              this.setState({ home: false, resulted: false });
+            }}
           />
         </View>
-      
-        ); 
-        
+      );
     }
   }
 }
@@ -97,8 +96,8 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });

@@ -27,10 +27,16 @@ export default class App extends React.Component {
     this.setState({startMcqs: true});
     console.log("start mcqs");
   }
-  render() {
-    const {home,startMcqs,started} = this.state;
 
-    if(!home){
+  result = (obt,total) => {
+    console.log(obt,total);
+    console.log("--------------------------------=-=====---=-==-=");
+    this.setState({resulted: true,home:false,startMcqs:false,started:false,obt,total})
+  }
+  render() {
+    const {home,startMcqs,started,resulted,obt,total} = this.state;
+
+    if(!home && !resulted){
       return (
          
         <View style={styles.container}>
@@ -65,9 +71,25 @@ export default class App extends React.Component {
     else if(home && startMcqs && started){
       return ( 
         
-  <QuizScreen />
+  <QuizScreen result={(obt,total) => {this.result(obt,total)}}/>
       
         ); 
+        
+    }
+    else if(resulted && !home){
+      return ( 
+        <View style={styles.container}>
+          <Text>
+            You Got {obt} / {total}
+          </Text>
+          <Button 
+          title="Start Again"
+          onPress={() => {this.setState({home:false,resulted:false})}}
+          />
+        </View>
+      
+        ); 
+        
     }
   }
 }

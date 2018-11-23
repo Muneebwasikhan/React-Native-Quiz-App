@@ -102,6 +102,7 @@ class QuizScreen extends Component {
                 })
 
                 Alert.alert("completed and you got " + marks + " marks out of " + answers.length);
+                this.props.result(marks,answers.length); 
               });
               }
               
